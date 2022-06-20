@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+    <button id="btnStart">Start</button>
+</div>
+
+<ul id="content">
+    
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnStart").click(function () {
+            $.get("home/start", function (data) {
+                console.log("data", data);
+            });
+        });
+
+        setInterval(function () {
+            $.get("home/GetItems", function (data) {
+                if (data) {
+                    console.log("GetItems", data);
+                    var cList = $('#content')
+                    $.each(data, function (i, v) {
+                        console.log(i, v);
+
+                        var li = $('<li/>')
+                            .addClass('list-item')
+                            .val(v.id)
+                            .text(v.name)
+                            .appendTo(cList);
+                        
+                    });
+                }
+            });
+        }, 1000);
+    });
+</script>
